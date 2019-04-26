@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/eamonkeane/jx-test-spring:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/eamonkeane/jx-test-spring:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: jx-test-spring
+        chartPath: charts/jx-test-spring
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/eamonkeane/jx-test-spring'
+          image.tag: '{{.DIGEST_HEX}}'

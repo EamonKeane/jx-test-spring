@@ -1,0 +1,1095 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    sidecar.istio.io/inject: "false"
+  creationTimestamp: null
+  labels:
+    branch: master
+    context: release
+    created-by-prow: "true"
+    jenkins.io/task-stage-name: from-build-pack
+    owner: EamonKeane
+    prowJobName: d47e07d5-6907-11e9-9355-4a404282a8b3
+    repo: jx-test-spring
+    tekton.dev/pipeline: eamonkeane-jx-test-spring-maste-7
+    tekton.dev/pipelineRun: eamonkeane-jx-test-spring-maste-7
+    tekton.dev/task: eamonkeane-jx-test-spring-maste-from-build-pack-7
+    tekton.dev/taskRun: eamonkeane-jx-test-spring-maste-7-from-build-pack-mw2fw
+  name: eamonkeane-jx-test-spring-maste-7-from-build-pack-mw2fw-pod-0bd67e
+  ownerReferences:
+  - apiVersion: tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TaskRun
+    name: eamonkeane-jx-test-spring-maste-7-from-build-pack-mw2fw
+    uid: ed2ec30e-6907-11e9-9860-4201ac100004
+  selfLink: /api/v1/namespaces/jx/pods/eamonkeane-jx-test-spring-maste-7-from-build-pack-mw2fw-pod-0bd67e
+spec:
+  containers:
+  - image: gcr.io/abayer-jx-experiment/nop:v20190308-186ac3b6
+    imagePullPolicy: IfNotPresent
+    name: nop
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  initContainers:
+  - args:
+    - -basic-git=knative-git-user-pass=https://github.com
+    env:
+    - name: HOME
+      value: /builder/home
+    image: gcr.io/abayer-jx-experiment/creds-init:v20190308-186ac3b6
+    imagePullPolicy: IfNotPresent
+    name: build-step-credential-initializer-h5nsk
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/build-secrets/knative-git-user-pass
+      name: secret-volume-knative-git-user-pass-bp7vf
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace
+  - args:
+    - -url
+    - https://github.com/EamonKeane/jx-test-spring
+    - -revision
+    - v0.0.6
+    - -path
+    - /workspace/source
+    env:
+    - name: HOME
+      value: /builder/home
+    image: gcr.io/abayer-jx-experiment/git-init:v20190308-186ac3b6
+    imagePullPolicy: IfNotPresent
+    name: build-step-git-source-eamonkeane-jx-test-spring-maste-d464r
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace
+  - args:
+    - /entrypoint
+    - /tools/entrypoint
+    command:
+    - /bin/cp
+    env:
+    - name: HOME
+      value: /builder/home
+    image: gcr.io/k8s-prow/entrypoint@sha256:7c7cd8906ce4982ffee326218e9fc75da2d4896d53cabc9833b9cc8d2d6b2b8f
+    imagePullPolicy: IfNotPresent
+    name: build-step-place-tools
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["jx","step","git","merge","--verbose"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: rawlingsj/builder-jx:wip34
+    imagePullPolicy: IfNotPresent
+    name: build-step-git-merge
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","jx step git credentials"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-setup-jx-git-credentials
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","mvn clean deploy"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-build-mvn-deploy
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","skaffold version"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-build-skaffold-version
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: /kaniko-secret/secret.json
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/kaniko/executor","--cache=true","--cache-dir=/workspace","--context=/workspace/source","--dockerfile=/workspace/source/Dockerfile","--destination=10.0.31.124:5000/eamonkeane/jx-test-spring:0.0.6","--cache-repo=10.0.31.124:5000/todo/cache","--skip-tls-verify-registry=10.0.31.124:5000","--insecure"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+    imagePullPolicy: IfNotPresent
+    name: build-step-build-container-build
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:${VERSION}"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-build-post-build
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","jx step changelog --version v${VERSION}"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-promote-changelog
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source/charts/jx-test-spring
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","jx step helm release"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-promote-helm-release
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source/charts/jx-test-spring
+  - command:
+    - /tools/entrypoint
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: BUILD_ID
+    - name: DOCKER_CONFIG
+      value: /home/jenkins/.docker/
+    - name: DOCKER_REGISTRY
+      valueFrom:
+        configMapKeyRef:
+          key: docker.registry
+          name: jenkins-x-docker-registry
+    - name: GIT_AUTHOR_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_AUTHOR_NAME
+      value: jenkins-x-bot
+    - name: GIT_COMMITTER_EMAIL
+      value: jenkins-x@googlegroups.com
+    - name: GIT_COMMITTER_NAME
+      value: jenkins-x-bot
+    - name: JOB_NAME
+      value: release
+    - name: JOB_SPEC
+      value: '{"type":"postsubmit","job":"release","refs":{"org":"EamonKeane","repo":"jx-test-spring","base_ref":"master","base_sha":"9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6"}}'
+    - name: JOB_TYPE
+      value: postsubmit
+    - name: MAVEN_OPTS
+      value: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: PROW_JOB_ID
+    - name: PULL_BASE_REF
+      value: master
+    - name: PULL_BASE_SHA
+      value: 9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: PULL_REFS
+      value: master:9c51339a30d3a0e4ffdf1dcaa69fd01cc4a4c7b6
+    - name: REPO_NAME
+      value: jx-test-spring
+    - name: REPO_OWNER
+      value: EamonKeane
+    - name: TILLER_NAMESPACE
+      value: kube-system
+    - name: XDG_CONFIG_HOME
+      value: /workspace/xdg_config
+    - name: _JAVA_OPTIONS
+      value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true
+        -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4
+        -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m
+    - name: BUILD_NUMBER
+      value: "7"
+    - name: PIPELINE_KIND
+      value: release
+    - name: PIPELINE_CONTEXT
+      value: release
+    - name: APP_NAME
+      value: jx-test-spring
+    - name: BRANCH_NAME
+      value: master
+    - name: JX_BATCH_MODE
+      value: "true"
+    - name: VERSION
+      value: 0.0.6
+    - name: PREVIEW_VERSION
+      value: 0.0.6
+    - name: ENTRYPOINT_OPTIONS
+      value: '{"args":["/bin/sh","-c","jx promote -b --all-auto --timeout 1h --version
+        ${VERSION}"],"process_log":"/tools/process-log.txt","marker_file":"/tools/marker-file.txt"}'
+    image: gcr.io/jenkinsxio/builder-maven:0.1.419
+    imagePullPolicy: IfNotPresent
+    name: build-step-promote-jx-promote
+    resources:
+      requests:
+        cpu: 400m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+      procMount: Default
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/docker.sock
+      name: docker-daemon
+    - mountPath: /root/.m2/
+      name: volume-0
+    - mountPath: /home/jenkins/.docker
+      name: volume-1
+    - mountPath: /home/jenkins/.gnupg
+      name: volume-2
+    - mountPath: /etc/podinfo
+      name: podinfo
+      readOnly: true
+    - mountPath: /tools
+      name: tools
+    - mountPath: /workspace
+      name: workspace
+    - mountPath: /builder/home
+      name: home
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: tekton-bot-token-gsmgs
+      readOnly: true
+    workingDir: /workspace/source/charts/jx-test-spring
+  nodeName: gke-test-jenkins-x-default-pool-9df98d60-b724
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: tekton-bot
+  serviceAccountName: tekton-bot
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - hostPath:
+      path: /var/run/docker.sock
+      type: ""
+    name: docker-daemon
+  - name: volume-0
+    secret:
+      defaultMode: 420
+      secretName: jenkins-maven-settings
+  - name: volume-1
+    secret:
+      defaultMode: 420
+      secretName: jenkins-docker-cfg
+  - name: volume-2
+    secret:
+      defaultMode: 420
+      secretName: jenkins-release-gpg
+  - emptyDir: {}
+    name: workspace-volume
+  - downwardAPI:
+      defaultMode: 420
+      items:
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels
+        path: labels
+    name: podinfo
+  - emptyDir: {}
+    name: tools
+  - emptyDir: {}
+    name: workspace
+  - emptyDir: {}
+    name: home
+  - name: secret-volume-knative-git-user-pass-bp7vf
+    secret:
+      defaultMode: 420
+      secretName: knative-git-user-pass
+  - name: tekton-bot-token-gsmgs
+    secret:
+      defaultMode: 420
+      secretName: tekton-bot-token-gsmgs
+status:
+  phase: Pending
+  qosClass: BestEffort

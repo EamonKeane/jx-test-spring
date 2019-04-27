@@ -27,4 +27,4 @@ pipelineConfig:
                 image: gcr.io/jenkinsxio/builder-go:0.1.332
                 command: jx
                 args: ['step', 'helm', 'release']
-                dir: source/charts/jx-test-spring
+                dir: /workspace/source/charts/jx-test-spring
